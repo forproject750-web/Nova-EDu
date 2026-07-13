@@ -68,6 +68,7 @@ export default function Categories({ onNavigate }: Props) {
         }
         setQuestionCounts(counts);
 
+        // Count questions per skill across all CEFR categories
         const cefrCatIds = (cats as Category[]).filter(c => c.type === 'cefr').map(c => c.id);
         const skillC: Record<string, number> = { reading: 0, writing: 0, speaking: 0, listening: 0 };
         for (const cid of cefrCatIds) {
@@ -112,6 +113,7 @@ export default function Categories({ onNavigate }: Props) {
 
       {isCEFR ? (
         <>
+          {/* CEFR: 4 Skills */}
           <div>
             <div className="mb-4 flex items-center gap-2">
               <BookOpen className="h-5 w-5 text-nova-400" />
@@ -143,6 +145,7 @@ export default function Categories({ onNavigate }: Props) {
             </div>
           </div>
 
+          {/* CEFR Levels */}
           <div>
             <div className="mb-4 flex items-center gap-2">
               <Star className="h-5 w-5 text-nova-400" />
@@ -181,6 +184,7 @@ export default function Categories({ onNavigate }: Props) {
         </>
       ) : (
         <>
+          {/* Agency: Subject cards */}
           <div>
             <div className="mb-4 flex items-center gap-2">
               <Calculator className="h-5 w-5 text-orange-400" />

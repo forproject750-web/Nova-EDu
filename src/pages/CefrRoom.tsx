@@ -26,12 +26,13 @@ type Skill = {
   label: string;
   desc: string;
   icon: typeof Headphones;
-  gradient: string;
-  iconWrap: string;
-  iconText: string;
-  border: string;
-  ring: string;
-  cta: string;
+  // Tailwind class fragments for this skill's color theme
+  gradient: string; // card background gradient
+  iconWrap: string; // icon container bg
+  iconText: string; // icon color
+  border: string; // hover border glow
+  ring: string; // hover ring glow
+  cta: string; // cta button bg
 };
 
 const skills: Skill[] = [
@@ -101,6 +102,7 @@ export default function CefrRoom({ onNavigate }: Props) {
     }
 
     (async () => {
+      // Today's date boundaries (local day, stored as ISO date string)
       const now = new Date();
       const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
       const startIso = startOfDay.toISOString();
@@ -134,13 +136,15 @@ export default function CefrRoom({ onNavigate }: Props) {
       setCategories((catsData as Category[]) || []);
       setRecentResults((resultsData as TestResult[]) || []);
 
+      // Daily plan: today's CEFR lessons + user's progress for today
       const cefrCatIds = ((catsData as Category[]) || []).map((c) => c.id);
 
       if (cefrCatIds.length > 0) {
+        // Today's day_number (1-based) — use day-of-year as a simple rotation
         const dayOfYear = Math.floor(
           (now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) / 86400000,
         );
-        const todayDay = ((dayOfYear - 1) % 7) + 1;
+        const todayDay = ((dayOfYear - 1) % 7) + 1; // 1..7
 
         const { data: todayLessons } = await supabase
           .from('lessons')
@@ -186,6 +190,7 @@ export default function CefrRoom({ onNavigate }: Props) {
 
   return (
     <div className="mx-auto max-w-6xl space-y-8 animate-fade-in">
+      {/* Header */}
       <div>
         <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-ink-800 bg-ink-900/50 px-3 py-1 text-xs font-medium text-ink-300">
           <Sparkles className="h-3.5 w-3.5 text-nova-400" />
@@ -199,9 +204,11 @@ export default function CefrRoom({ onNavigate }: Props) {
         </p>
       </div>
 
+      {/* Placement Test / Level section */}
       <section className="animate-slide-up">
         {hasPlacement ? (
           <div className="card relative overflow-hidden p-6 sm:p-8">
+            {/* glow accent */}
             <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-nova-500/10 blur-3xl" />
             <div className="pointer-events-none absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-accent-500/10 blur-3xl" />
             <div className="relative flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
@@ -223,7 +230,10 @@ export default function CefrRoom({ onNavigate }: Props) {
                   </p>
                 </div>
               </div>
-              <button onClick={() => onNavigate('cefr-placement')} className="btn-secondary">
+              <button
+                onClick={() => onNavigate('cefr-placement')}
+                className="btn-secondary"
+              >
                 Qayta topshirish <ArrowRight className="h-4 w-4" />
               </button>
             </div>
@@ -238,14 +248,19 @@ export default function CefrRoom({ onNavigate }: Props) {
                   <Target className="h-7 w-7" />
                 </div>
                 <div>
-                  <h2 className="font-display text-xl font-bold sm:text-2xl">Placement Test</h2>
+                  <h2 className="font-display text-xl font-bold sm:text-2xl">
+                    Placement Test
+                  </h2>
                   <p className="mt-1 max-w-md text-sm text-ink-400">
                     Darajangizni aniqlang (A1–B2) va sizga mos darslar bilan
                     ishni boshlang. Test qisqa va to'g'ri yo'nalish beradi.
                   </p>
                 </div>
               </div>
-              <button onClick={() => onNavigate('cefr-placement')} className="btn-primary w-full shrink-0 sm:w-auto">
+              <button
+                onClick={() => onNavigate('cefr-placement')}
+                className="btn-primary w-full shrink-0 sm:w-auto"
+              >
                 Darajani aniqlash <ArrowRight className="h-4 w-4" />
               </button>
             </div>
@@ -253,6 +268,7 @@ export default function CefrRoom({ onNavigate }: Props) {
         )}
       </section>
 
+      {/* 4 Skill Rooms */}
       <section>
         <div className="mb-4 flex items-center gap-2">
           <TrendingUp className="h-5 w-5 text-nova-400" />
@@ -260,21 +276,33 @@ export default function CefrRoom({ onNavigate }: Props) {
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
           {skills.map((s, i) => (
-            <div key={s.key} className={`card group relative overflow-hidden bg-gradient-to-br ${s.gradient} p-6 transition-all duration-300 hover:scale-[1.02] ${s.border} hover:shadow-lg ${s.ring} animate-slide-up`}
-              style={{ animationDelay: `${i * 0.08}s` }}>
+            <div
+              key={s.key}
+              className={`card group relative overflow-hidden bg-gradient-to-br ${s.gradient} p-6 transition-all duration-300 hover:scale-[1.02] ${s.border} hover:shadow-lg ${s.ring} animate-slide-up`}
+              style={{ animationDelay: `${i * 0.08}s` }}
+            >
+              {/* decorative glow */}
               <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/5 blur-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
               <div className="relative flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-start gap-4">
-                  <div className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl ${s.iconWrap} ${s.iconText} transition-transform duration-300 group-hover:scale-110`}>
+                  <div
+                    className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl ${s.iconWrap} ${s.iconText} transition-transform duration-300 group-hover:scale-110`}
+                  >
                     <s.icon className="h-7 w-7" />
                   </div>
                   <div>
-                    <h3 className="font-display text-lg font-bold text-white">{s.label}</h3>
+                    <h3 className="font-display text-lg font-bold text-white">
+                      {s.label}
+                    </h3>
                     <p className="mt-1 text-sm text-ink-300">{s.desc}</p>
                   </div>
                 </div>
-                <button onClick={() => onNavigate(`cefr-skill:${s.key}`)}
-                  className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-all active:scale-[0.98] ${s.cta}`}>
+
+                <button
+                  onClick={() => onNavigate(`cefr-skill:${s.key}`)}
+                  className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition-all active:scale-[0.98] ${s.cta}`}
+                >
                   Boshlash <ArrowRight className="h-4 w-4" />
                 </button>
               </div>
@@ -283,6 +311,7 @@ export default function CefrRoom({ onNavigate }: Props) {
         </div>
       </section>
 
+      {/* Daily Plan Progress */}
       <section className="animate-slide-up" style={{ animationDelay: '0.2s' }}>
         <div className="card p-6">
           <div className="mb-4 flex items-center justify-between">
@@ -294,13 +323,19 @@ export default function CefrRoom({ onNavigate }: Props) {
               {todayDone}/{todayTotal} dars
             </span>
           </div>
+
           {todayTotal === 0 ? (
             <div className="flex flex-col items-center justify-center py-8 text-center">
               <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-ink-800">
                 <Clock className="h-6 w-6 text-ink-500" />
               </div>
-              <p className="text-sm text-ink-400">Bugun uchun rejalashtirilgan darslar topilmadi</p>
-              <button onClick={() => onNavigate('categories')} className="btn-ghost mt-3 text-xs">
+              <p className="text-sm text-ink-400">
+                Bugun uchun rejalashtirilgan darslar topilmadi
+              </p>
+              <button
+                onClick={() => onNavigate('categories')}
+                className="btn-ghost mt-3 text-xs"
+              >
                 Ko'nikmalarni ko'rish <ChevronRight className="h-3.5 w-3.5" />
               </button>
             </div>
@@ -310,15 +345,19 @@ export default function CefrRoom({ onNavigate }: Props) {
                 <p className="text-sm text-ink-400">
                   Bugungi reja: <span className="font-semibold text-ink-100">{todayDone}/{todayTotal}</span> dars bajarildi
                 </p>
-                <p className="font-display text-2xl font-bold text-accent-400">{todayPct}%</p>
+                <p className="font-display text-2xl font-bold text-accent-400">
+                  {todayPct}%
+                </p>
               </div>
               <div className="h-3 overflow-hidden rounded-full bg-ink-800">
-                <div className="h-full rounded-full bg-gradient-to-r from-nova-500 to-accent-500 transition-all duration-700 ease-out"
-                  style={{ width: `${todayPct}%` }} />
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-nova-500 to-accent-500 transition-all duration-700 ease-out"
+                  style={{ width: `${todayPct}%` }}
+                />
               </div>
               {todayDone === todayTotal ? (
                 <p className="flex items-center gap-1.5 text-sm text-accent-400">
-                  <Trophy className="h-4 w-4" /> Bugungi reja bajarildi! Tabriklaymiz!
+                  <Trophy className="h-4 w-4" /> Bugungi reja bajarildi! Tabriklaymiz 🎉
                 </p>
               ) : (
                 <p className="text-xs text-ink-500">
@@ -330,6 +369,7 @@ export default function CefrRoom({ onNavigate }: Props) {
         </div>
       </section>
 
+      {/* Recent Activity */}
       <section className="animate-slide-up" style={{ animationDelay: '0.3s' }}>
         <div className="card p-6">
           <div className="mb-4 flex items-center justify-between">
@@ -339,13 +379,17 @@ export default function CefrRoom({ onNavigate }: Props) {
             </div>
             <span className="text-xs text-ink-500">CEFR natijalari</span>
           </div>
+
           {recentResults.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-10 text-center">
               <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-ink-800">
                 <Trophy className="h-6 w-6 text-ink-500" />
               </div>
               <p className="text-sm text-ink-400">Hali CEFR testi topshirmagansiz</p>
-              <button onClick={() => onNavigate('categories')} className="btn-primary mt-4">
+              <button
+                onClick={() => onNavigate('categories')}
+                className="btn-primary mt-4"
+              >
                 Birinchi testni boshlash <ArrowRight className="h-4 w-4" />
               </button>
             </div>
@@ -353,21 +397,39 @@ export default function CefrRoom({ onNavigate }: Props) {
             <div className="space-y-2.5">
               {recentResults.map((r) => {
                 const cat = catMap.get(r.category_id);
-                const pct = r.total_questions > 0 ? Math.round((r.score / r.total_questions) * 100) : 0;
+                const pct =
+                  r.total_questions > 0
+                    ? Math.round((r.score / r.total_questions) * 100)
+                    : 0;
                 const mins = Math.floor((r.time_spent_seconds || 0) / 60);
                 const secs = (r.time_spent_seconds || 0) % 60;
                 return (
-                  <div key={r.id} className="flex items-center gap-4 rounded-xl border border-ink-800 bg-ink-900/50 p-4 transition-all hover:border-ink-700">
+                  <div
+                    key={r.id}
+                    className="flex items-center gap-4 rounded-xl border border-ink-800 bg-ink-900/50 p-4 transition-all hover:border-ink-700"
+                  >
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-nova-500/10 text-nova-400">
                       <Trophy className="h-5 w-5" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="truncate text-sm font-medium">{cat?.name || 'CEFR Test'}</div>
-                      <div className="text-xs text-ink-500">{r.score}/{r.total_questions} to'g'ri • {mins}m {secs}s</div>
+                      <div className="truncate text-sm font-medium">
+                        {cat?.name || 'CEFR Test'}
+                      </div>
+                      <div className="text-xs text-ink-500">
+                        {r.score}/{r.total_questions} to'g'ri • {mins}m {secs}s
+                      </div>
                     </div>
-                    <div className={`shrink-0 rounded-lg px-3 py-1.5 text-sm font-bold ${
-                      pct >= 80 ? 'bg-accent-500/10 text-accent-400' : pct >= 50 ? 'bg-amber-500/10 text-amber-400' : 'bg-red-500/10 text-red-400'
-                    }`}>{pct}%</div>
+                    <div
+                      className={`shrink-0 rounded-lg px-3 py-1.5 text-sm font-bold ${
+                        pct >= 80
+                          ? 'bg-accent-500/10 text-accent-400'
+                          : pct >= 50
+                            ? 'bg-amber-500/10 text-amber-400'
+                            : 'bg-red-500/10 text-red-400'
+                      }`}
+                    >
+                      {pct}%
+                    </div>
                   </div>
                 );
               })}

@@ -37,12 +37,15 @@ function AppContent() {
     );
   }
 
+  // Public pages
   if (page === 'landing') return <Landing onNavigate={navigate} />;
   if (page === 'login') return <Auth mode="login" onNavigate={navigate} />;
   if (page === 'signup') return <Auth mode="signup" onNavigate={navigate} />;
 
+  // Protected pages — require auth
   if (!user) return <Landing onNavigate={navigate} />;
 
+  // CEFR Room
   if (page === 'cefr-room') {
     return (
       <AppLayout onNavigate={navigate} current="categories">
@@ -51,6 +54,7 @@ function AppContent() {
     );
   }
 
+  // Agency Room
   if (page === 'agency-room') {
     return (
       <AppLayout onNavigate={navigate} current="categories">
@@ -59,6 +63,7 @@ function AppContent() {
     );
   }
 
+  // Test page
   if (page.startsWith('test:')) {
     const slug = page.slice(5);
     return (
@@ -68,6 +73,7 @@ function AppContent() {
     );
   }
 
+  // CEFR skill test page
   if (page.startsWith('cefr-skill:')) {
     const skill = page.slice(11) as 'reading' | 'writing' | 'speaking' | 'listening';
     return (
@@ -77,6 +83,7 @@ function AppContent() {
     );
   }
 
+  // Result page
   if (page.startsWith('result:')) {
     const resultId = page.slice(7);
     return (
@@ -86,6 +93,7 @@ function AppContent() {
     );
   }
 
+  // Standard pages
   if (page === 'dashboard') {
     return (
       <AppLayout onNavigate={navigate} current="dashboard">

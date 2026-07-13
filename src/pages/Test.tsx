@@ -122,6 +122,7 @@ export default function Test({ slug, onNavigate }: Props) {
 
   return (
     <div className="mx-auto max-w-3xl space-y-6 animate-fade-in">
+      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <button onClick={() => onNavigate('categories')} className="btn-ghost mb-2 -ml-2 text-xs">
@@ -137,17 +138,21 @@ export default function Test({ slug, onNavigate }: Props) {
         </div>
       </div>
 
+      {/* Progress bar */}
       <div>
         <div className="mb-2 flex justify-between text-xs text-ink-400">
           <span>Savol {current + 1} / {questions.length}</span>
           <span>{answeredCount} / {questions.length} javob berilgan</span>
         </div>
         <div className="h-2 overflow-hidden rounded-full bg-ink-800">
-          <div className="h-full rounded-full bg-gradient-to-r from-nova-500 to-accent-500 transition-all duration-300"
-            style={{ width: `${((current + 1) / questions.length) * 100}%` }} />
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-nova-500 to-accent-500 transition-all duration-300"
+            style={{ width: `${((current + 1) / questions.length) * 100}%` }}
+          />
         </div>
       </div>
 
+      {/* Question */}
       <div className="card p-6 animate-scale-in" key={q.id}>
         <div className="mb-2 flex items-center gap-2">
           <span className={`rounded-md px-2 py-0.5 text-xs font-medium ${
@@ -159,17 +164,25 @@ export default function Test({ slug, onNavigate }: Props) {
           </span>
         </div>
         <h2 className="mb-6 text-lg font-medium leading-relaxed">{q.question_text}</h2>
+
         <div className="space-y-3">
           {options.map((opt) => {
             const isSelected = answers[q.id] === opt.key;
             return (
-              <button key={opt.key} onClick={() => handleAnswer(q.id, opt.key)}
+              <button
+                key={opt.key}
+                onClick={() => handleAnswer(q.id, opt.key)}
                 className={`flex w-full items-center gap-3 rounded-xl border p-4 text-left transition-all ${
-                  isSelected ? 'border-nova-500 bg-nova-500/10 text-white' : 'border-ink-700 bg-ink-900/50 text-ink-200 hover:border-ink-600 hover:bg-ink-800'
-                }`}>
+                  isSelected
+                    ? 'border-nova-500 bg-nova-500/10 text-white'
+                    : 'border-ink-700 bg-ink-900/50 text-ink-200 hover:border-ink-600 hover:bg-ink-800'
+                }`}
+              >
                 <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-sm font-bold uppercase transition-all ${
                   isSelected ? 'bg-nova-500 text-white' : 'bg-ink-800 text-ink-400'
-                }`}>{opt.key}</div>
+                }`}>
+                  {opt.key}
+                </div>
                 <span className="text-sm">{opt.text}</span>
                 {isSelected && <CheckCircle2 className="ml-auto h-5 w-5 text-nova-400" />}
               </button>
@@ -178,25 +191,48 @@ export default function Test({ slug, onNavigate }: Props) {
         </div>
       </div>
 
+      {/* Navigation */}
       <div className="flex items-center justify-between gap-4">
-        <button onClick={() => setCurrent(c => Math.max(0, c - 1))} disabled={current === 0}
-          className="btn-secondary disabled:opacity-30 disabled:pointer-events-none">
+        <button
+          onClick={() => setCurrent(c => Math.max(0, c - 1))}
+          disabled={current === 0}
+          className="btn-secondary disabled:opacity-30 disabled:pointer-events-none"
+        >
           <ChevronLeft className="h-4 w-4" /> Oldingi
         </button>
+
+        {/* Question dots */}
         <div className="hidden flex-wrap justify-center gap-1.5 sm:flex">
           {questions.map((qq, i) => (
-            <button key={qq.id} onClick={() => setCurrent(i)}
+            <button
+              key={qq.id}
+              onClick={() => setCurrent(i)}
               className={`h-2.5 w-2.5 rounded-full transition-all ${
-                i === current ? 'bg-nova-500 scale-125' : answers[qq.id] ? 'bg-accent-500' : 'bg-ink-700'
-              }`} />
+                i === current ? 'bg-nova-500 scale-125' :
+                answers[qq.id] ? 'bg-accent-500' : 'bg-ink-700'
+              }`}
+            />
           ))}
         </div>
+
         {current === questions.length - 1 ? (
-          <button onClick={handleSubmit} disabled={submitting || !allAnswered} className="btn-primary">
-            {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <>Yakunlash <CheckCircle2 className="h-4 w-4" /></>}
+          <button
+            onClick={handleSubmit}
+            disabled={submitting || !allAnswered}
+            className="btn-primary"
+          >
+            {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : (
+              <>
+                Yakunlash
+                <CheckCircle2 className="h-4 w-4" />
+              </>
+            )}
           </button>
         ) : (
-          <button onClick={() => setCurrent(c => Math.min(questions.length - 1, c + 1))} className="btn-primary">
+          <button
+            onClick={() => setCurrent(c => Math.min(questions.length - 1, c + 1))}
+            className="btn-primary"
+          >
             Keyingi <ChevronRight className="h-4 w-4" />
           </button>
         )}

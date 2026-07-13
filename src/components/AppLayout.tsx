@@ -23,6 +23,7 @@ export default function AppLayout({ children, onNavigate, current }: Props) {
 
   return (
     <div className="min-h-screen bg-ink-950">
+      {/* Sidebar */}
       <aside className="fixed left-0 top-0 z-40 hidden h-screen w-64 flex-col border-r border-ink-800 bg-ink-900/50 md:flex">
         <button onClick={() => onNavigate('landing')} className="flex items-center gap-2.5 px-6 py-5">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-nova-500 to-accent-500">
@@ -69,6 +70,7 @@ export default function AppLayout({ children, onNavigate, current }: Props) {
         </div>
       </aside>
 
+      {/* Mobile nav */}
       <nav className="fixed top-0 left-0 right-0 z-40 border-b border-ink-800 bg-ink-950/80 backdrop-blur-lg md:hidden">
         <div className="flex items-center justify-between px-4 py-3">
           <button onClick={() => onNavigate('landing')} className="flex items-center gap-2">
@@ -102,6 +104,7 @@ export default function AppLayout({ children, onNavigate, current }: Props) {
         </div>
       </nav>
 
+      {/* Content */}
       <main className="md:ml-64">
         <div className="min-h-screen px-4 py-6 pt-20 md:px-8 md:pt-8">
           {children}

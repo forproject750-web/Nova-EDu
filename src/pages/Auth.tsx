@@ -83,6 +83,7 @@ export default function Auth({ mode, onNavigate }: Props) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-ink-950 px-4 py-8">
       <div className="absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-nova-500/10 blur-[120px]" />
+
       <div className="relative w-full max-w-md animate-scale-in">
         <div className="mb-8 text-center">
           <button onClick={() => onNavigate('landing')} className="inline-flex items-center gap-2.5">
@@ -92,6 +93,7 @@ export default function Auth({ mode, onNavigate }: Props) {
             <span className="font-display text-2xl font-bold">NOVA<span className="text-nova-400">EDU</span></span>
           </button>
         </div>
+
         <div className="card p-8">
           <h1 className="mb-2 font-display text-2xl font-bold">
             {isSignup ? 'Ro\'yxatdan o\'tish' : 'Tizimga kirish'}
@@ -103,6 +105,8 @@ export default function Auth({ mode, onNavigate }: Props) {
               : 'Hisob ma\'lumotlarini yarating'
             : 'Hisobingizga kiring va davom eting'}
           </p>
+
+          {/* Step indicator */}
           {isSignup && (
             <div className="mb-6 flex items-center gap-2">
               {[1, 2, 3].map((s, i) => (
@@ -117,14 +121,17 @@ export default function Auth({ mode, onNavigate }: Props) {
               ))}
             </div>
           )}
+
           {error && (
             <div className="mb-4 flex items-center gap-2 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400 animate-fade-in">
               <AlertCircle className="h-4 w-4 shrink-0" />
               {error}
             </div>
           )}
+
           {isSignup ? (
             <form onSubmit={step < 3 ? handleNext : handleSubmit} className="space-y-4">
+              {/* Step 1: Name, Phone, Age */}
               {step === 1 && (
                 <>
                   <div>
@@ -156,6 +163,8 @@ export default function Auth({ mode, onNavigate }: Props) {
                   </button>
                 </>
               )}
+
+              {/* Step 2: Prep Type + Agency Path */}
               {step === 2 && (
                 <>
                   <button type="button" onClick={() => { setStep(1); setError(null); }}
@@ -195,6 +204,8 @@ export default function Auth({ mode, onNavigate }: Props) {
                       {prepType === 'agency' && <CheckCircle2 className="h-5 w-5 text-nova-400" />}
                     </button>
                   </div>
+
+                  {/* Agency path selection */}
                   {prepType === 'agency' && (
                     <div className="animate-fade-in space-y-3 pt-2">
                       <label className="block text-xs font-medium text-ink-300">Qaysi rejaga ko\'ra tayyorlanasiz?</label>
@@ -230,11 +241,14 @@ export default function Auth({ mode, onNavigate }: Props) {
                       </button>
                     </div>
                   )}
+
                   <button type="submit" className="btn-primary w-full py-3.5">
                     Davom etish <ArrowRight className="h-4 w-4" />
                   </button>
                 </>
               )}
+
+              {/* Step 3: Email + Password */}
               {step === 3 && (
                 <>
                   <button type="button" onClick={() => { setStep(2); setError(null); }}
@@ -254,7 +268,7 @@ export default function Auth({ mode, onNavigate }: Props) {
                     <div className="relative">
                       <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-500" />
                       <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-                        placeholder="•••••••" required className="input-field pl-11" />
+                        placeholder="••••••••" required className="input-field pl-11" />
                     </div>
                   </div>
                   <button type="submit" disabled={loading} className="btn-primary w-full py-3.5">
@@ -266,6 +280,7 @@ export default function Auth({ mode, onNavigate }: Props) {
               )}
             </form>
           ) : (
+            /* Login form */
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
                 <label className="mb-1.5 block text-xs font-medium text-ink-300">Email</label>
@@ -280,7 +295,7 @@ export default function Auth({ mode, onNavigate }: Props) {
                 <div className="relative">
                   <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-500" />
                   <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
-                    placeholder="•••••••" required className="input-field pl-11" />
+                    placeholder="••••••••" required className="input-field pl-11" />
                 </div>
               </div>
               <button type="submit" disabled={loading} className="btn-primary w-full py-3.5">
@@ -290,6 +305,7 @@ export default function Auth({ mode, onNavigate }: Props) {
               </button>
             </form>
           )}
+
           <div className="mt-6 text-center text-sm text-ink-400">
             {isSignup ? (
               <>Hisobingiz bormi?{' '}
@@ -302,6 +318,7 @@ export default function Auth({ mode, onNavigate }: Props) {
             )}
           </div>
         </div>
+
         <button onClick={() => onNavigate('landing')} className="mt-6 block w-full text-center text-sm text-ink-500 hover:text-ink-300">
           Bosh sahifaga qaytish
         </button>

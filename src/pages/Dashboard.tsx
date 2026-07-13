@@ -42,6 +42,7 @@ export default function Dashboard({ onNavigate }: Props) {
       setCategories((catsData as Category[]) || []);
       setPlacement(placementData as PlacementResult | null);
 
+      // Calculate today's progress
       const today = new Date();
       const dayOfYear = Math.floor((today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / 86400000);
       const dayNum = ((dayOfYear % 7) || 1);
@@ -107,6 +108,7 @@ export default function Dashboard({ onNavigate }: Props) {
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 animate-fade-in">
+      {/* Header */}
       <div>
         <h1 className="font-display text-3xl font-bold tracking-tight">
           Salom, {profile?.full_name?.split(' ')[0] || 'O\'quvchi'}!
@@ -116,6 +118,7 @@ export default function Dashboard({ onNavigate }: Props) {
         </p>
       </div>
 
+      {/* Daily Progress Bar */}
       <div className="card relative overflow-hidden p-6">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_right,_rgba(51,128,255,0.08),_transparent_70%)]" />
         <div className="relative flex items-center justify-between gap-4">
@@ -140,8 +143,10 @@ export default function Dashboard({ onNavigate }: Props) {
           </div>
         </div>
         <div className="relative mt-4 h-3 overflow-hidden rounded-full bg-ink-800">
-          <div className="h-full rounded-full bg-gradient-to-r from-nova-500 to-accent-500 transition-all duration-500"
-            style={{ width: `${dailyPct}%` }} />
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-nova-500 to-accent-500 transition-all duration-500"
+            style={{ width: `${dailyPct}%` }}
+          />
         </div>
         {dailyPct === 100 && (
           <div className="relative mt-3 flex items-center gap-2 text-sm text-accent-400 animate-fade-in">
@@ -150,6 +155,7 @@ export default function Dashboard({ onNavigate }: Props) {
         )}
       </div>
 
+      {/* CEFR Placement Banner */}
       {isCEFR && !placement && (
         <button onClick={() => onNavigate('cefr-placement')} className="card group w-full overflow-hidden p-6 text-left transition-all hover:border-nova-500/30">
           <div className="flex items-center gap-4">
@@ -177,6 +183,7 @@ export default function Dashboard({ onNavigate }: Props) {
         </div>
       )}
 
+      {/* Stats grid */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((s) => (
           <div key={s.label} className="card p-5">
@@ -192,6 +199,7 @@ export default function Dashboard({ onNavigate }: Props) {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
+        {/* Recent tests */}
         <div className="lg:col-span-2">
           <div className="card p-6">
             <div className="mb-4 flex items-center justify-between">
@@ -200,6 +208,7 @@ export default function Dashboard({ onNavigate }: Props) {
                 {roomLabel} <ChevronRight className="h-3.5 w-3.5" />
               </button>
             </div>
+
             {recentResults.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-12 text-center">
                 <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-ink-800">
@@ -241,6 +250,7 @@ export default function Dashboard({ onNavigate }: Props) {
           </div>
         </div>
 
+        {/* Quick start */}
         <div className="space-y-4">
           <div className="card p-6">
             <div className="mb-4 flex items-center gap-2">
@@ -281,6 +291,7 @@ export default function Dashboard({ onNavigate }: Props) {
             </button>
           </div>
 
+          {/* Progress card */}
           {totalTests > 0 && (
             <div className="card p-6">
               <div className="mb-4 flex items-center gap-2">

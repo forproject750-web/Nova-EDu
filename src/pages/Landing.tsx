@@ -26,6 +26,7 @@ export default function Landing({ onNavigate }: Props) {
 
   return (
     <div className="min-h-screen bg-ink-950">
+      {/* Nav */}
       <nav className="fixed top-0 left-0 right-0 z-50 border-b border-ink-800/50 bg-ink-950/70 backdrop-blur-lg">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-2.5">
@@ -55,6 +56,7 @@ export default function Landing({ onNavigate }: Props) {
         </div>
       </nav>
 
+      {/* Hero */}
       <section className="relative overflow-hidden pt-32 pb-20">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(51,128,255,0.15),_transparent_60%)]" />
         <div className="absolute left-1/2 top-0 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-nova-500/10 blur-[120px]" />
@@ -80,6 +82,8 @@ export default function Landing({ onNavigate }: Props) {
               Tizimga kirish
             </button>
           </div>
+
+          {/* Stats */}
           <div className="mx-auto mt-20 grid max-w-3xl grid-cols-2 gap-4 md:grid-cols-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
             {stats.map((s) => (
               <div key={s.label} className="card p-6">
@@ -91,6 +95,7 @@ export default function Landing({ onNavigate }: Props) {
         </div>
       </section>
 
+      {/* Features */}
       <section id="features" className="mx-auto max-w-7xl px-6 py-20">
         <div className="mb-12 text-center">
           <h2 className="font-display text-4xl font-bold tracking-tight">Nima uchun NOVA EDU?</h2>
@@ -98,7 +103,11 @@ export default function Landing({ onNavigate }: Props) {
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {features.map((f, i) => (
-            <div key={f.title} className="card group p-6 transition-all hover:border-nova-500/30 hover:bg-ink-800/50 animate-slide-up" style={{ animationDelay: `${i * 0.05}s` }}>
+            <div
+              key={f.title}
+              className="card group p-6 transition-all hover:border-nova-500/30 hover:bg-ink-800/50 animate-slide-up"
+              style={{ animationDelay: `${i * 0.05}s` }}
+            >
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-nova-500/10 text-nova-400 transition-transform group-hover:scale-110">
                 <f.icon className="h-6 w-6" />
               </div>
@@ -109,6 +118,7 @@ export default function Landing({ onNavigate }: Props) {
         </div>
       </section>
 
+      {/* Subjects preview */}
       <section className="mx-auto max-w-7xl px-6 py-20">
         <div className="mb-12 text-center">
           <h2 className="font-display text-4xl font-bold tracking-tight">Fanlar va Darajalar</h2>
@@ -131,6 +141,7 @@ export default function Landing({ onNavigate }: Props) {
         </div>
       </section>
 
+      {/* Partners */}
       <section className="mx-auto max-w-7xl px-6 py-16">
         <div className="mb-8 text-center">
           <p className="text-sm font-medium uppercase tracking-wider text-ink-500">Hamkorlar</p>
@@ -153,6 +164,8 @@ export default function Landing({ onNavigate }: Props) {
               </div>
             </div>
           </div>
+
+          {/* CEFR IDNS Partner */}
           <div className="card group relative overflow-hidden p-8 transition-all hover:border-sky-500/30 hover:bg-ink-800/50 animate-fade-in" style={{ maxWidth: '520px' }}>
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(0,210,255,0.06),_transparent_70%)]" />
             <div className="relative flex flex-col items-center gap-4">
@@ -172,6 +185,7 @@ export default function Landing({ onNavigate }: Props) {
         </div>
       </section>
 
+      {/* CTA */}
       <section className="mx-auto max-w-5xl px-6 py-20">
         <div className="card relative overflow-hidden p-12 text-center">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(51,128,255,0.1),_transparent_70%)]" />
@@ -191,6 +205,7 @@ export default function Landing({ onNavigate }: Props) {
         </div>
       </section>
 
+      {/* Footer */}
       <footer className="border-t border-ink-800/50">
         <div className="mx-auto max-w-7xl px-6 py-12">
           <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
